@@ -3,6 +3,8 @@ dotenv.config();
 
 const express = require("express"); // Using the Express server
 const app = express();
+app.use(express.urlencoded({ extended: false })); // This middleware parses request bodies, extracting form data into a JavaScript object.
+
 
 const mongoose = require("mongoose"); 
 mongoose.connect(process.env.MONGODB_URI); // Looks at the .env/MONGODB_URI for the route to connect
@@ -14,10 +16,22 @@ mongoose.connection.on("connected", () => {
     console.log(`Conneted to MongoDB ${mongoose.connection.name}.`) // Test the Mongoose connection
 });
 
-
 app.get("/", async (req, res) => { // ROOT/MAIN ROUTE
     res.render("index.ejs");
 });
+
+app.post("/fruits", async (req, res) => {
+    if(req.body.ripe === "on") { // This is done because the check box used, isn't a true or false value. So if checked it will be set to a boolean of true.
+        req.body.ripe = true; 
+    } else {
+        req.body.ripe = false;
+    }
+    
+    await Fruit.create(req.body);
+
+    res.redirect("/fruits/new");
+});
+
 app.get("/fruits/new", (req, res) => { // NEW FRUITS ROUTE
     res.render("fruits/new.ejs")
 });
