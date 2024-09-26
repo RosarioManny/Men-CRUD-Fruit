@@ -13,13 +13,13 @@ mongoose.connection.on("connected", () => {
 });
 const Fruit = require("./models/fruits.js");
 
-app.get("/", async (req, res) => {
+app.get("/", async (req, res) => { // ROOT ROUTE
     res.render("index.ejs");
 });
-app.get("/fruits/new", (req, res) => {
+app.get("/fruits/new", (req, res) => { // NEW FRUITS ROUTE
     res.render("fruits/new.ejs")
 });
 
 app.listen(3000, () => {
-    console.log("Listening on port 3000");
+    console.log("Listening on port 3000"); // Validate correct server
 });
