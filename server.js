@@ -4,7 +4,6 @@ dotenv.config();
 // EXPRESS
 const express = require("express"); // Using the Express server
 const app = express();
-app.use(express.urlencoded({ extended: false })); // This middleware parses request bodies, extracting form data into a JavaScript object.
 // MONGO
 const mongoose = require("mongoose"); 
 mongoose.connect(process.env.MONGODB_URI); // Looks at the .env/MONGODB_URI for the route to connect
@@ -13,8 +12,13 @@ const Fruit = require("./models/fruits.js");
 // MORGAN & METHOD OVERRIDE
 const methodOverride = require("method-override");
 const morgan = require("morgan");
+// PATH
+const path = require("path");
+// APP.USE
+app.use(express.urlencoded({ extended: false })); // This middleware parses request bodies, extracting form data into a JavaScript object.
 app.use(methodOverride("_method"));
 app.use(morgan("dev"));
+app.use(express.static(path.join(__dirname, "public")));
 // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Imports / Const ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 mongoose.connection.on("connected", () => {
@@ -60,12 +64,32 @@ app.delete("/fruits/:fruitId", async (req, res) => {
     res.redirect("/fruits");
 });
 
+
+
 app.get("/fruits/:fruitId/edit", async (req, res) => {
     const foundFruit = await Fruit.findById(req.params.fruitId);
     res.render("fruits/edit.ejs", {
       fruit: foundFruit,
     });
 });
+
+// server.js
+
+app.put("/fruits/:fruitId", async (req, res) => {
+    // Handle the 'isReadyToEat' checkbox data
+    if (req.body.ripe === "on") {
+      req.body.ripe = true;
+    } else {
+      req.body.ripe = false;
+    }
+    
+    // Update the fruit in the database
+    await Fruit.findByIdAndUpdate(req.params.fruitId, req.body);
+  
+    // Redirect to the fruit's show page to see the updates
+    res.redirect(`/fruits/${req.params.fruitId}`);
+  });
+  
   
 
 app.listen(3000, () => {

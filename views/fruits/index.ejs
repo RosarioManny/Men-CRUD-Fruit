@@ -1,5 +1,8 @@
-<!-- views/fruits/index.ejs -->
-
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+</head>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -8,15 +11,21 @@
     <title>Fruits Index</title>
   </head>
   <body>
-    <a href="/fruits/new">Create new fruit</a>
-    <h1>All Fruits</h1>
-  <ul>
-    <% fruits.forEach(fruit => { %>
-      <li>
-        <a href="/fruits/<%= fruit._id %>"> <%= fruit.name %> </a>
-    </li>
-    <% }); %>
-  </ul>
-
+    <div class="index-header-div">
+        <a href="/">
+            <h1>All Fruits</h1>
+        </a>
+        <a class="add-fruit" href="/fruits/new">Add a fruit</a>
+        <a class="add-fruit" href="/fruits/new">Make fruit</a>
+      </div>
+      <ul>
+        <% fruits.forEach((fruit)=> { %>
+        <li>
+          <a class="fruit-cards" href="/fruits/<%=fruit._id%>">
+            <%= fruit.name %>
+          </a>
+        </li>
+        <% }) %>
+      </ul>
   </body>
 </html>

@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/stylesheets/style.css" />
     <title>Create a Fruit</title>
   </head>
   <body>
@@ -10,10 +11,10 @@
     <form action="/fruits" method="POST"> <!--Form: Place is in action and method is the CRUD action-->
         <label for="name">Name:</git label>
         <input type="text" name="name" id="name" />
-    
+      <div class="checkbox-div">
         <label for="ripe">Ready to Eat?</label>
         <input type="checkbox" name="ripe" id="ripe" />
-    
+      </div>
         <button type="submit">Add Fruit</button>
       </form>
   </body>
