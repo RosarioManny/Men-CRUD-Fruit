@@ -45,12 +45,28 @@ app.get("/fruits", async (req, res) => { // FRUITS LISTS
 app.get("/fruits/new", (req, res) => { // NEW FRUITS ROUTE
     res.render("fruits/new.ejs")
 });
+
 // REMEMBER ORDER MATTERS. Don't put routes with slugs above others with a similar path. 
+// vvvvvvv Slug ROUTES BELOW vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 
 app.get("/fruits/:fruitId", async (req, res) => {
     const foundFruit = await Fruit.findById(req.params.fruitId);
     res.render("fruits/show.ejs", { fruit: foundFruit });
 });
+
+app.delete("/fruits/:fruitId", async (req, res) => {
+    // res.send("This is the delete route");
+    await Fruit.findByIdAndDelete(req.params.fruitId);
+    res.redirect("/fruits");
+});
+
+app.get("/fruits/:fruitId/edit", async (req, res) => {
+    const foundFruit = await Fruit.findById(req.params.fruitId);
+    res.render("fruits/edit.ejs", {
+      fruit: foundFruit,
+    });
+});
+  
 
 app.listen(3000, () => {
     console.log("Listening on port 3000"); // Validate correct server
