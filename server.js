@@ -7,13 +7,15 @@ const app = express();
 const mongoose = require("mongoose"); 
 mongoose.connect(process.env.MONGODB_URI); // Looks at the .env/MONGODB_URI for the route to connect
 
+const Fruit = require("./models/fruits.js");
+// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Imports / Const ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 mongoose.connection.on("connected", () => {
     console.log(`Conneted to MongoDB ${mongoose.connection.name}.`) // Test the Mongoose connection
 });
-const Fruit = require("./models/fruits.js");
 
-app.get("/", async (req, res) => { // ROOT ROUTE
+
+app.get("/", async (req, res) => { // ROOT/MAIN ROUTE
     res.render("index.ejs");
 });
 app.get("/fruits/new", (req, res) => { // NEW FRUITS ROUTE
